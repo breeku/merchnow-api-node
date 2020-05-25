@@ -24,7 +24,7 @@ You can also pass a offset as a second parameter, if limit equals items returned
 
 ## Why?
 
-Merchnow seems to use a cms api which returns a html string. This module parses the html to useable json
+Merchnow seems to use a cms api which returns a html string. This module parses the html to useable json using ```node-html-parser```
 
 ### Before
 
