@@ -8,7 +8,10 @@ const BASEURL = "https://merchnow.com/catalogs/showList?"
  * @param {Number} number - Offset for the API, if limit === itemsReturned, you can get next items with offset
  * @return {JSON} JSON - Resulting JSON
  */
-export const getCatalog = async (string: string, offset = 0): Icatalog => {
+export const getCatalog = async (
+	string: string,
+	offset = 0
+): Promise<Icatalog> => {
 	try {
 		const response: Icatalog = await (
 			await fetch(

@@ -79,7 +79,7 @@ const getImages = (images: any[]): Iimages => {
 }
 
 export const catalogToObject = (html: string): Array<Icontent> => {
-	const parsed = parse(html)
+	const parsed: any = parse(html)
 	const items = parsed.querySelectorAll(".product-list-item")
 	const result: Array<Icontent> = []
 
