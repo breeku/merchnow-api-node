@@ -1,33 +1,28 @@
-export interface InewTuning {
-	name: string
-	notes: string
-	octaves: string
+export interface Icatalog {
+	Content: unknown
+	NumberOfItems: number
+	ItemsReturned: number
+	Enabled: boolean
+	Offset: number
+	Limit: number
 }
 
-interface Inames {
-	[key: string]: string
+export interface Icontent {
+	decoration?: string
+	description: Idescription[]
+	images: Iimages
 }
 
-export interface Iindexes {
-	[key: number]: Inames
+export interface Idescription {
+	content: string
+	tag?: string
+	url?: string
 }
 
-interface Itracks {
-	difficulty?: string
-	difficultyV3?: string
-	difficultyVersion?: number
-	instrumentId: number
-	tuning?: unknown // later cast as number[] or InewTuning
-	views?: number
+export interface Iimages {
+	alt?: string
+	lg?: string
+	md?: string
+	sm?: string
+	xl?: string
 }
-
-interface IsongsterrObject {
-	artist: string
-	artistId: number
-	defaultTrack: number
-	songId: number
-	title: string
-	tracks: Itracks[]
-}
-
-export type IsongsterrTabs = IsongsterrObject[]

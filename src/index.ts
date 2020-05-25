@@ -1,15 +1,16 @@
 import fetch from "node-fetch"
-import { htmlToObject } from "./htmlToJson"
+import { catalogToObject } from "./htmlParser"
+import { Icatalog, Icontent } from "./interfaces"
 const BASEURL = "https://merchnow.com/catalogs/showList?"
 
 /**
  * @param {string} string - A string to search for.
  * @param {Number} number - Offset for the API, if limit === itemsReturned, you can get next items with offset
- * @return {Array} Array - Array of object's that includes all result's
+ * @return {JSON} JSON - Resulting JSON
  */
-export const merchSearch = async (string, offset = 0) => {
+export const getCatalog = async (string: string, offset = 0): Icatalog => {
 	try {
-		const response = await (
+		const response: Icatalog = await (
 			await fetch(
 				BASEURL +
 					"name=" +
@@ -20,7 +21,9 @@ export const merchSearch = async (string, offset = 0) => {
 			)
 		).json()
 
-		const Content = await htmlToObject(response.Content)
+		const Content: Array<Icontent> = catalogToObject(
+			response.Content as string
+		)
 
 		return { ...response, Content }
 	} catch (err) {

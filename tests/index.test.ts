@@ -1,7 +1,7 @@
-import { songsterrSearch } from "../src/index"
+import { getCatalog } from "../src/index"
 
 it("returns array of objects", async () => {
 	expect.assertions(1)
-	const result = await songsterrSearch("Dyers eve")
+	const result = await getCatalog("hail the sun")
 	expect(result).toBeDefined()
 })
