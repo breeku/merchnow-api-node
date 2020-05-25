@@ -6,7 +6,7 @@ const BASEURL = "https://merchnow.com/catalogs/showList?"
 /**
  * @param {string} string - A string to search for.
  * @param {Number} number - Offset for the API, if limit === itemsReturned, you can get next items with offset
- * @return {JSON} JSON - Resulting JSON
+ * @return {Object} Object - Resulting Object
  */
 export const getCatalog = async (
 	string: string,
@@ -24,9 +24,7 @@ export const getCatalog = async (
 			)
 		).json()
 
-		const Content: Array<Icontent> = catalogToObject(
-			response.Content as string
-		)
+		const Content: Icontent[] = catalogToObject(response.Content as string)
 
 		return { ...response, Content }
 	} catch (err) {

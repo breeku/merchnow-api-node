@@ -1,5 +1,5 @@
 export interface Icatalog {
-	Content: unknown
+	Content: unknown // later cast as string or Icontent
 	NumberOfItems: number
 	ItemsReturned: number
 	Enabled: boolean
