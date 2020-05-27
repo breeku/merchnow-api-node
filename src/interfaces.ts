@@ -8,7 +8,7 @@ export interface Icatalog {
 }
 
 export interface Icontent {
-	decoration?: string
+	decoration?: string[]
 	description: Idescription[]
 	images: Iimages
 }

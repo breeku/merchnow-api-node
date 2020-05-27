@@ -1,15 +1,14 @@
 import { parse } from "node-html-parser"
 import { Icontent, Iimages, Idescription } from "./interfaces"
 
-const getDecoration = (decorations: any[]): string => {
-	let str = ""
+const getDecoration = (decorations: any[]): string[] => {
+	const texts = []
 	if (decorations.length > 0) {
 		for (const decoration of decorations) {
-			const text: string = decoration.childNodes[0].rawText
-			str += text
+			texts.push(decoration.text)
 		}
 	}
-	return str
+	return texts
 }
 
 const getDescriptions = (descriptions: any[]): Idescription[] => {
@@ -25,18 +24,9 @@ const getDescriptions = (descriptions: any[]): Idescription[] => {
 					if (tag === "a") {
 						url =
 							"https://merchnow.com/" + child.getAttribute("href")
-					}
-
-					if (url !== "" || tag) {
-						if (url !== "" && tag) {
-							texts.push({ content, url, tag })
-						} else if (tag) {
-							texts.push({ content, tag })
-						} else {
-							texts.push({ content, url })
-						}
+						if (url) texts.push({ content, url, tag })
 					} else {
-						texts.push({ content })
+						texts.push({ content, tag })
 					}
 				}
 			}
