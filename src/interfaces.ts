@@ -8,21 +8,22 @@ export interface Icatalog {
 }
 
 export interface Icontent {
-	decoration?: string[]
+	name: string
+	decorations: string[]
 	description: Idescription[]
 	images: Iimages
+	url: string
 }
 
 export interface Idescription {
 	content: string
-	tag?: string
+	tag: string
 	url?: string
 }
 
 export interface Iimages {
-	alt?: string
-	lg?: string
-	md?: string
-	sm?: string
-	xl?: string
+	lg: string
+	md: string
+	sm: string
+	xl: string
 }

@@ -1,71 +1,42 @@
 import { parse } from "node-html-parser"
 import { Icontent, Iimages, Idescription } from "./interfaces"
 
-const getDecoration = (decorations: any[]): string[] => {
-	const texts = []
+const getDecorations = (decorations: any[]): string[] => {
+	const contents = []
 	if (decorations.length > 0) {
 		for (const decoration of decorations) {
-			texts.push(decoration.text)
+			contents.push(decoration.text)
 		}
 	}
-	return texts
+	return contents
 }
 
 const getDescriptions = (descriptions: any[]): Idescription[] => {
-	const texts = []
+	const contents = []
 	if (descriptions.length > 0) {
 		for (const description of descriptions) {
 			for (const child of description.childNodes) {
-				if (child.rawText.trim().length > 0) {
-					const tag: string = child.tagName
-					const content: string = child.rawText.trim()
-					let url = ""
+				const content: string = child.text.trim()
+				if (content.length > 0) {
+					const tag: string = child.tagName || "none"
 
-					if (tag === "a") {
-						url =
-							"https://merchnow.com/" + child.getAttribute("href")
-						if (url) texts.push({ content, url, tag })
-					} else {
-						texts.push({ content, tag })
-					}
+					contents.push({ content, tag })
 				}
 			}
 		}
 	}
-	return texts
+	return contents
 }
 
-const getImages = (images: any[]): Iimages => {
-	let imgs = {}
-	if (images.length > 0) {
-		for (const image of images) {
-			for (const child of image.childNodes) {
-				if (child.rawAttrs) {
-					const url: string = child.getAttribute("src")
-					const alt: string = child.getAttribute("alt")
+const getImages = (image: any[]): Iimages => {
+	const url: string = image.getAttribute("src")
 
-					if (url && alt) {
-						const sm: string = url.replace(
-							"imageproductmd",
-							"imageproductsm"
-						)
-						const md: string = url
-						const lg: string = url.replace(
-							"imageproductmd",
-							"imageproductlg"
-						)
-						const xl: string = url.replace(
-							"imageproductmd",
-							"imageproductxl"
-						)
+	const sm: string = url.replace("imageproductmd", "imageproductsm")
+	const md: string = url
+	const lg: string = url.replace("imageproductmd", "imageproductlg")
+	const xl: string = url.replace("imageproductmd", "imageproductxl")
 
-						imgs = { sm, md, lg, xl, alt }
-					}
-				}
-			}
-		}
-	}
-	return imgs
+	return { sm, md, lg, xl }
 }
 
 export const catalogToObject = (html: string): Icontent[] => {
@@ -74,14 +45,26 @@ export const catalogToObject = (html: string): Icontent[] => {
 	const result: Icontent[] = []
 
 	for (const item of items) {
-		const decorations = item.querySelectorAll(".image-decoration")
-		const images = item.querySelectorAll("picture")
-		const descriptions = item.querySelectorAll(".product-list-desc")
+		const image = item.querySelector("img") // every item has one image, from which we can get all sizes
+		const name = image.getAttribute("alt") // every image has a alt attribute
+
+		const decorations = getDecorations(
+			item.querySelectorAll(".image-decoration")
+		)
+		const description = getDescriptions(
+			item.querySelectorAll(".product-list-desc")
+		)
+		const images = getImages(image)
+
+		const href = item.querySelector("a").getAttribute("href")
+		const url = "https://merchnow.com" + href
 
 		const obj: Icontent = {
-			decoration: getDecoration(decorations),
-			description: getDescriptions(descriptions),
-			images: getImages(images)
+			name,
+			decorations,
+			description,
+			images,
+			url
 		}
 
 		result.push(obj)
