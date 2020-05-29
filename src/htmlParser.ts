@@ -28,7 +28,7 @@ const getDescriptions = (descriptions: any[]): Idescription[] => {
 	return contents
 }
 
-const getImages = (image: any[]): Iimages => {
+const getImages = (image: any): Iimages => {
 	const url: string = image.getAttribute("src")
 
 	const sm: string = url.replace("imageproductmd", "imageproductsm")
